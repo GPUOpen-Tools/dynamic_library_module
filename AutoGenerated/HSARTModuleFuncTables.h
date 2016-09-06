@@ -31,64 +31,40 @@
     X(signal_destroy) \
     X(signal_load_scacquire) \
     X(signal_load_relaxed) \
-    X(signal_load_acquire) \
     X(signal_store_relaxed) \
     X(signal_store_screlease) \
-    X(signal_store_release) \
     X(signal_silent_store_relaxed) \
     X(signal_silent_store_screlease) \
     X(signal_exchange_scacq_screl) \
-    X(signal_exchange_acq_rel) \
     X(signal_exchange_scacquire) \
-    X(signal_exchange_acquire) \
     X(signal_exchange_relaxed) \
     X(signal_exchange_screlease) \
-    X(signal_exchange_release) \
     X(signal_cas_scacq_screl) \
-    X(signal_cas_acq_rel) \
     X(signal_cas_scacquire) \
-    X(signal_cas_acquire) \
     X(signal_cas_relaxed) \
     X(signal_cas_screlease) \
-    X(signal_cas_release) \
     X(signal_add_scacq_screl) \
-    X(signal_add_acq_rel) \
     X(signal_add_scacquire) \
-    X(signal_add_acquire) \
     X(signal_add_relaxed) \
     X(signal_add_screlease) \
-    X(signal_add_release) \
     X(signal_subtract_scacq_screl) \
-    X(signal_subtract_acq_rel) \
     X(signal_subtract_scacquire) \
-    X(signal_subtract_acquire) \
     X(signal_subtract_relaxed) \
     X(signal_subtract_screlease) \
-    X(signal_subtract_release) \
     X(signal_and_scacq_screl) \
-    X(signal_and_acq_rel) \
     X(signal_and_scacquire) \
-    X(signal_and_acquire) \
     X(signal_and_relaxed) \
     X(signal_and_screlease) \
-    X(signal_and_release) \
     X(signal_or_scacq_screl) \
-    X(signal_or_acq_rel) \
     X(signal_or_scacquire) \
-    X(signal_or_acquire) \
     X(signal_or_relaxed) \
     X(signal_or_screlease) \
-    X(signal_or_release) \
     X(signal_xor_scacq_screl) \
-    X(signal_xor_acq_rel) \
     X(signal_xor_scacquire) \
-    X(signal_xor_acquire) \
     X(signal_xor_relaxed) \
     X(signal_xor_screlease) \
-    X(signal_xor_release) \
     X(signal_wait_scacquire) \
     X(signal_wait_relaxed) \
-    X(signal_wait_acquire) \
     X(signal_group_create) \
     X(signal_group_destroy) \
     X(signal_group_wait_any_scacquire) \
@@ -97,31 +73,21 @@
     X(soft_queue_create) \
     X(queue_destroy) \
     X(queue_inactivate) \
-    X(queue_load_read_index_acquire) \
     X(queue_load_read_index_scacquire) \
     X(queue_load_read_index_relaxed) \
-    X(queue_load_write_index_acquire) \
     X(queue_load_write_index_scacquire) \
     X(queue_load_write_index_relaxed) \
     X(queue_store_write_index_relaxed) \
-    X(queue_store_write_index_release) \
     X(queue_store_write_index_screlease) \
-    X(queue_cas_write_index_acq_rel) \
     X(queue_cas_write_index_scacq_screl) \
-    X(queue_cas_write_index_acquire) \
     X(queue_cas_write_index_scacquire) \
     X(queue_cas_write_index_relaxed) \
-    X(queue_cas_write_index_release) \
     X(queue_cas_write_index_screlease) \
-    X(queue_add_write_index_acq_rel) \
     X(queue_add_write_index_scacq_screl) \
-    X(queue_add_write_index_acquire) \
     X(queue_add_write_index_scacquire) \
     X(queue_add_write_index_relaxed) \
-    X(queue_add_write_index_release) \
     X(queue_add_write_index_screlease) \
     X(queue_store_read_index_relaxed) \
-    X(queue_store_read_index_release) \
     X(queue_store_read_index_screlease) \
     X(region_get_info) \
     X(agent_iterate_regions) \

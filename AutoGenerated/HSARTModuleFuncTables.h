@@ -137,6 +137,42 @@
     X(code_symbol_get_info) \
     X(code_object_iterate_symbols) \
 
+#define HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE \
+    X(signal_load_acquire) \
+    X(signal_store_release) \
+    X(signal_exchange_acq_rel) \
+    X(signal_exchange_acquire) \
+    X(signal_exchange_release) \
+    X(signal_cas_acq_rel) \
+    X(signal_cas_acquire) \
+    X(signal_cas_release) \
+    X(signal_add_acq_rel) \
+    X(signal_add_acquire) \
+    X(signal_add_release) \
+    X(signal_subtract_acq_rel) \
+    X(signal_subtract_acquire) \
+    X(signal_subtract_release) \
+    X(signal_and_acq_rel) \
+    X(signal_and_acquire) \
+    X(signal_and_release) \
+    X(signal_or_acq_rel) \
+    X(signal_or_acquire) \
+    X(signal_or_release) \
+    X(signal_xor_acq_rel) \
+    X(signal_xor_acquire) \
+    X(signal_xor_release) \
+    X(signal_wait_acquire) \
+    X(queue_load_read_index_acquire) \
+    X(queue_load_write_index_acquire) \
+    X(queue_store_write_index_release) \
+    X(queue_cas_write_index_acq_rel) \
+    X(queue_cas_write_index_acquire) \
+    X(queue_cas_write_index_release) \
+    X(queue_add_write_index_acq_rel) \
+    X(queue_add_write_index_acquire) \
+    X(queue_add_write_index_release) \
+    X(queue_store_read_index_release) \
+
 #else
 
 #define HSA_RUNTIME_API_TABLE \
@@ -236,6 +272,8 @@
     X(executable_get_symbol) \
     X(executable_symbol_get_info) \
     X(executable_iterate_symbols) \
+
+#define HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE
 
 #endif
 

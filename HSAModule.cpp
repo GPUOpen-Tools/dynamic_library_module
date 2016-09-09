@@ -43,6 +43,7 @@ void HSAModule::Initialize()
     HSA_EXT_IMAGE_API_TABLE;
     HSA_EXT_AMD_API_TABLE;
     HSA_VEN_AMD_LOADER_API_TABLE;
+    HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE;
 #undef X
 
     m_isModuleLoaded = false;
@@ -72,6 +73,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 #define X(SYM) SYM = reinterpret_cast<decltype(::hsa_##SYM)*>(m_dynamicLibraryHelper.GetProcAddress(MAKE_STRING(SYM)));
         HSA_RUNTIME_API_TABLE;
         HSA_EXT_AMD_API_TABLE;
+        HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE;
 #undef X
 #undef MAKE_STRING
 

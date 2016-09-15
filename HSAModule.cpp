@@ -87,11 +87,11 @@ bool HSAModule::LoadModule(const std::string& moduleName)
             if (HSA_STATUS_ERROR_NOT_INITIALIZED == status)
             {
                 // hsa runtime not initialized yet, initialize it now
-                mustCallShutdown = true;
                 status = init();
 
                 if (HSA_STATUS_SUCCESS == status)
                 {
+                    mustCallShutdown = true;
                     status = system_extension_supported(HSA_EXTENSION_FINALIZER, 1, 0, &extensionSupported);
                 }
             }

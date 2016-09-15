@@ -24,6 +24,8 @@
     #endif
 #endif
 
+#define ROCM_1_2_AMD_VEN_LOADER_EXTENSION 3
+
 HSAModule::HSAModule(void) : m_isModuleLoaded(false)
 {
     Initialize();
@@ -127,12 +129,22 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 #undef X
                 }
             }
-            status = system_extension_supported(HSA_EXTENSION_AMD_LOADER, 1, 0, &extensionSupported);
+
+            uint16_t amdLoaderExtension = HSA_EXTENSION_AMD_LOADER;
+            status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
+
+            if ((HSA_STATUS_SUCCESS != status) || !extensionSupported)
+            {
+                amdLoaderExtension = ROCM_1_2_AMD_VEN_LOADER_EXTENSION;
+                status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
+            }
+
             if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
             {
                 hsa_ven_amd_loader_1_00_pfn_t loaderTable;
                 memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_00_pfn_t));
-                status = system_get_extension_table(HSA_EXTENSION_AMD_LOADER, 1, 0, &loaderTable);
+                status = system_get_extension_table(amdLoaderExtension, 1, 0, &loaderTable);
+
                 if (HSA_STATUS_SUCCESS == status)
                 {
 #define X(SYM) SYM = loaderTable.hsa_##SYM;

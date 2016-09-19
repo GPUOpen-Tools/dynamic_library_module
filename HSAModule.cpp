@@ -79,8 +79,13 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 #undef X
 #undef MAKE_STRING
 
+        // Check if we initialized all the core function pointers (all others are considered optional for the m_isModuleLoaded flag -- this is better for backwards compatibility)
+#define X(SYM) && SYM != nullptr
+        m_isModuleLoaded = true HSA_RUNTIME_API_TABLE;
+#undef X
+
         // initialize the extension functions
-        if (nullptr != system_extension_supported && nullptr != system_get_extension_table)
+        if (m_isModuleLoaded)
         {
             bool extensionSupported = false;
             bool mustCallShutdown = false;
@@ -96,77 +101,76 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                     mustCallShutdown = true;
                     status = system_extension_supported(HSA_EXTENSION_FINALIZER, 1, 0, &extensionSupported);
                 }
+                else
+                {
+                    m_isModuleLoaded = false;
+                }
             }
 
-            if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
+            if (m_isModuleLoaded)
             {
-                hsa_ext_finalizer_1_00_pfn_t finalizerTable;
-                memset(&finalizerTable, 0, sizeof(hsa_ext_finalizer_1_00_pfn_t));
-                status = system_get_extension_table(HSA_EXTENSION_FINALIZER, 1, 0, &finalizerTable);
-
-                if (HSA_STATUS_SUCCESS == status)
+                if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
+                    hsa_ext_finalizer_1_00_pfn_t finalizerTable;
+                    memset(&finalizerTable, 0, sizeof(hsa_ext_finalizer_1_00_pfn_t));
+                    status = system_get_extension_table(HSA_EXTENSION_FINALIZER, 1, 0, &finalizerTable);
+
+                    if (HSA_STATUS_SUCCESS == status)
+                    {
 
 #define X(SYM) SYM = finalizerTable.hsa_##SYM;
-                    HSA_EXT_FINALIZE_API_TABLE;
+                        HSA_EXT_FINALIZE_API_TABLE;
 #undef X
+                    }
                 }
-            }
 
-            status = system_extension_supported(HSA_EXTENSION_IMAGES, 1, 0, &extensionSupported);
+                status = system_extension_supported(HSA_EXTENSION_IMAGES, 1, 0, &extensionSupported);
 
-            if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
-            {
-                hsa_ext_images_1_00_pfn_t imagesTable;
-                memset(&imagesTable, 0, sizeof(hsa_ext_images_1_00_pfn_t));
-                status = system_get_extension_table(HSA_EXTENSION_IMAGES, 1, 0, &imagesTable);
-
-                if (HSA_STATUS_SUCCESS == status)
+                if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
+                    hsa_ext_images_1_00_pfn_t imagesTable;
+                    memset(&imagesTable, 0, sizeof(hsa_ext_images_1_00_pfn_t));
+                    status = system_get_extension_table(HSA_EXTENSION_IMAGES, 1, 0, &imagesTable);
+
+                    if (HSA_STATUS_SUCCESS == status)
+                    {
 
 #define X(SYM) SYM = imagesTable.hsa_##SYM;
-                    HSA_EXT_IMAGE_API_TABLE;
+                        HSA_EXT_IMAGE_API_TABLE;
 #undef X
+                    }
                 }
-            }
 
-            uint16_t amdLoaderExtension = HSA_EXTENSION_AMD_LOADER;
-            status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
-
-            if ((HSA_STATUS_SUCCESS != status) || !extensionSupported)
-            {
-                amdLoaderExtension = ROCM_1_2_AMD_VEN_LOADER_EXTENSION;
+                uint16_t amdLoaderExtension = HSA_EXTENSION_AMD_LOADER;
                 status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
-            }
 
-            if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
-            {
-                hsa_ven_amd_loader_1_00_pfn_t loaderTable;
-                memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_00_pfn_t));
-                status = system_get_extension_table(amdLoaderExtension, 1, 0, &loaderTable);
-
-                if (HSA_STATUS_SUCCESS == status)
+                if ((HSA_STATUS_SUCCESS != status) || !extensionSupported)
                 {
-#define X(SYM) SYM = loaderTable.hsa_##SYM;
-                    HSA_VEN_AMD_LOADER_API_TABLE;
-#undef X
+                    amdLoaderExtension = ROCM_1_2_AMD_VEN_LOADER_EXTENSION;
+                    status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
                 }
-            }
 
-            if (mustCallShutdown)
-            {
-                // if we initialzed the runtime, then shut it down now
-                shut_down();
+                if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
+                {
+                    hsa_ven_amd_loader_1_00_pfn_t loaderTable;
+                    memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_00_pfn_t));
+                    status = system_get_extension_table(amdLoaderExtension, 1, 0, &loaderTable);
+
+                    if (HSA_STATUS_SUCCESS == status)
+                    {
+#define X(SYM) SYM = loaderTable.hsa_##SYM;
+                        HSA_VEN_AMD_LOADER_API_TABLE;
+#undef X
+                    }
+                }
+
+                if (mustCallShutdown)
+                {
+                    // if we initialzed the runtime, then shut it down now
+                    shut_down();
+                }
             }
         }
-
-#undef X
-
-        // Check if we initialized all the core function pointers (all others are considered optional for the m_isModuleLoaded flag -- this is better for backwards compatibility)
-#define X(SYM) && SYM != nullptr
-        m_isModuleLoaded = true HSA_RUNTIME_API_TABLE;
-#undef X
-
     }
 
     return m_isModuleLoaded;

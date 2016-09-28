@@ -5,6 +5,10 @@
 /// \brief  This class manages the dynamic loading of HSA entry points hsa-runtime{32,64}.dll and libhsa-runtime{32,64}.so
 //==============================================================================
 
+#ifdef __linux
+#include <sys/utsname.h>
+#endif
+
 #include <string>
 #include <cstring>
 #include "HSAModule.h"
@@ -59,6 +63,20 @@ void HSAModule::UnloadModule()
 
 bool HSAModule::LoadModule(const std::string& moduleName)
 {
+#ifdef __linux
+    utsname unameBuf;
+
+    if (0 == uname(&unameBuf))
+    {
+        std::string strRelease(unameBuf.release);
+
+        if (std::string::npos == strRelease.find("kfd-compute-rocm"))
+        {
+            return false;
+        }
+    }
+#endif
+
     // Load from specified module
     bool bLoaded = m_dynamicLibraryHelper.LoadModule(moduleName);
 

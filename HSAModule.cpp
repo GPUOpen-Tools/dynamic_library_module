@@ -6,7 +6,7 @@
 //==============================================================================
 
 #ifdef __linux
-#include <sys/utsname.h>
+    #include <sys/utsname.h>
 #endif
 
 #include <string>
@@ -53,6 +53,11 @@ void HSAModule::Initialize()
 #undef X
 
     m_isModuleLoaded = false;
+    m_finalizeExtTableLoaded = false;
+    m_imageExtTableLoaded = false;
+    m_amdExtTableLoaded = false;
+    m_amdVenLoaderTableLoaded = false;
+    m_nonInterceptableTableLoaded = false;
 }
 
 void HSAModule::UnloadModule()
@@ -75,6 +80,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
             return false;
         }
     }
+
 #endif
 
     // Load from specified module
@@ -97,10 +103,28 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 #undef X
 #undef MAKE_STRING
 
-        // Check if we initialized all the core function pointers (all others are considered optional for the m_isModuleLoaded flag -- this is better for backwards compatibility)
+        // Check if we were able to initialize the various sets of function pointers
+        // We will consider the module to have successfully loaded if:
+        //   1) all core runtime functions are non-nullptr or
+        //   2) all functions shared by ROCM 1.2 and ROCM 1.2 are non-null
+        // All extension functions are considered optional for the m_isModuleLoaded flag
 #define X(SYM) && SYM != nullptr
-        m_isModuleLoaded = true HSA_RUNTIME_API_TABLE;
+        bool isCommonTableLoaded = true COMMON_1_2_AND_1_3;
+        bool isRuntimeTableLoaded = true HSA_RUNTIME_API_TABLE;
+        m_amdExtTableLoaded = true HSA_EXT_AMD_API_TABLE;
+        m_nonInterceptableTableLoaded = true HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE;
 #undef X
+
+        m_isModuleLoaded = isRuntimeTableLoaded;
+
+#define X(SYM) || SYM != nullptr
+        bool isAnyCommonFunctionLoaded = false COMMON_1_2_AND_1_3;
+#undef X
+
+        if (!m_isModuleLoaded && isAnyCommonFunctionLoaded)
+        {
+            m_isModuleLoaded = isCommonTableLoaded;
+        }
 
         // initialize the extension functions
         if (m_isModuleLoaded)
@@ -138,6 +162,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 
 #define X(SYM) SYM = finalizerTable.hsa_##SYM;
                         HSA_EXT_FINALIZE_API_TABLE;
+                        m_finalizeExtTableLoaded = true;
 #undef X
                     }
                 }
@@ -155,6 +180,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 
 #define X(SYM) SYM = imagesTable.hsa_##SYM;
                         HSA_EXT_IMAGE_API_TABLE;
+                        m_imageExtTableLoaded = true;
 #undef X
                     }
                 }
@@ -178,6 +204,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                     {
 #define X(SYM) SYM = loaderTable.hsa_##SYM;
                         HSA_VEN_AMD_LOADER_API_TABLE;
+                        m_amdVenLoaderTableLoaded = true;
 #undef X
                     }
                 }
@@ -193,3 +220,4 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 
     return m_isModuleLoaded;
 }
+

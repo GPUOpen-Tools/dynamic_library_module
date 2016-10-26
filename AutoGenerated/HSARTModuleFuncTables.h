@@ -10,85 +10,39 @@
 
 #ifdef FUTURE_ROCR_VERSION
 
-#define HSA_RUNTIME_API_TABLE \
+#define COMMON_1_2_AND_1_3 \
     X(status_string) \
     X(init) \
     X(shut_down) \
     X(system_get_info) \
-    X(extension_get_name) \
     X(system_extension_supported) \
-    X(system_major_extension_supported) \
     X(system_get_extension_table) \
-    X(system_get_major_extension_table) \
     X(agent_get_info) \
     X(iterate_agents) \
     X(agent_get_exception_policies) \
-    X(cache_get_info) \
-    X(agent_iterate_caches) \
     X(agent_extension_supported) \
-    X(agent_major_extension_supported) \
     X(signal_create) \
     X(signal_destroy) \
-    X(signal_load_scacquire) \
     X(signal_load_relaxed) \
     X(signal_store_relaxed) \
-    X(signal_store_screlease) \
-    X(signal_silent_store_relaxed) \
-    X(signal_silent_store_screlease) \
-    X(signal_exchange_scacq_screl) \
-    X(signal_exchange_scacquire) \
     X(signal_exchange_relaxed) \
-    X(signal_exchange_screlease) \
-    X(signal_cas_scacq_screl) \
-    X(signal_cas_scacquire) \
     X(signal_cas_relaxed) \
-    X(signal_cas_screlease) \
-    X(signal_add_scacq_screl) \
-    X(signal_add_scacquire) \
     X(signal_add_relaxed) \
-    X(signal_add_screlease) \
-    X(signal_subtract_scacq_screl) \
-    X(signal_subtract_scacquire) \
     X(signal_subtract_relaxed) \
-    X(signal_subtract_screlease) \
-    X(signal_and_scacq_screl) \
-    X(signal_and_scacquire) \
     X(signal_and_relaxed) \
-    X(signal_and_screlease) \
-    X(signal_or_scacq_screl) \
-    X(signal_or_scacquire) \
     X(signal_or_relaxed) \
-    X(signal_or_screlease) \
-    X(signal_xor_scacq_screl) \
-    X(signal_xor_scacquire) \
     X(signal_xor_relaxed) \
-    X(signal_xor_screlease) \
-    X(signal_wait_scacquire) \
     X(signal_wait_relaxed) \
-    X(signal_group_create) \
-    X(signal_group_destroy) \
-    X(signal_group_wait_any_scacquire) \
-    X(signal_group_wait_any_relaxed) \
     X(queue_create) \
     X(soft_queue_create) \
     X(queue_destroy) \
     X(queue_inactivate) \
-    X(queue_load_read_index_scacquire) \
     X(queue_load_read_index_relaxed) \
-    X(queue_load_write_index_scacquire) \
     X(queue_load_write_index_relaxed) \
     X(queue_store_write_index_relaxed) \
-    X(queue_store_write_index_screlease) \
-    X(queue_cas_write_index_scacq_screl) \
-    X(queue_cas_write_index_scacquire) \
     X(queue_cas_write_index_relaxed) \
-    X(queue_cas_write_index_screlease) \
-    X(queue_add_write_index_scacq_screl) \
-    X(queue_add_write_index_scacquire) \
     X(queue_add_write_index_relaxed) \
-    X(queue_add_write_index_screlease) \
     X(queue_store_read_index_relaxed) \
-    X(queue_store_read_index_screlease) \
     X(region_get_info) \
     X(agent_iterate_regions) \
     X(memory_allocate) \
@@ -98,33 +52,81 @@
     X(memory_register) \
     X(memory_deregister) \
     X(isa_from_name) \
-    X(agent_iterate_isas) \
     X(isa_get_info) \
-    X(isa_get_info_alt) \
-    X(isa_get_exception_policies) \
-    X(isa_get_round_method) \
-    X(wavefront_get_info) \
-    X(isa_iterate_wavefronts) \
     X(isa_compatible) \
-    X(code_object_reader_create_from_file) \
-    X(code_object_reader_create_from_memory) \
-    X(code_object_reader_destroy) \
     X(executable_create) \
-    X(executable_create_alt) \
     X(executable_destroy) \
-    X(executable_load_program_code_object) \
-    X(executable_load_agent_code_object) \
     X(executable_freeze) \
     X(executable_get_info) \
     X(executable_global_variable_define) \
     X(executable_agent_global_variable_define) \
     X(executable_readonly_variable_define) \
     X(executable_validate) \
-    X(executable_validate_alt) \
     X(executable_get_symbol) \
-    X(executable_get_symbol_by_name) \
     X(executable_symbol_get_info) \
     X(executable_iterate_symbols) \
+
+#define HSA_RUNTIME_API_TABLE COMMON_1_2_AND_1_3 \
+    X(extension_get_name) \
+    X(system_major_extension_supported) \
+    X(system_get_major_extension_table) \
+    X(cache_get_info) \
+    X(agent_iterate_caches) \
+    X(agent_major_extension_supported) \
+    X(signal_load_scacquire) \
+    X(signal_store_screlease) \
+    X(signal_silent_store_relaxed) \
+    X(signal_silent_store_screlease) \
+    X(signal_exchange_scacq_screl) \
+    X(signal_exchange_scacquire) \
+    X(signal_exchange_screlease) \
+    X(signal_cas_scacq_screl) \
+    X(signal_cas_scacquire) \
+    X(signal_cas_screlease) \
+    X(signal_add_scacq_screl) \
+    X(signal_add_scacquire) \
+    X(signal_add_screlease) \
+    X(signal_subtract_scacq_screl) \
+    X(signal_subtract_scacquire) \
+    X(signal_subtract_screlease) \
+    X(signal_and_scacq_screl) \
+    X(signal_and_scacquire) \
+    X(signal_and_screlease) \
+    X(signal_or_scacq_screl) \
+    X(signal_or_scacquire) \
+    X(signal_or_screlease) \
+    X(signal_xor_scacq_screl) \
+    X(signal_xor_scacquire) \
+    X(signal_xor_screlease) \
+    X(signal_wait_scacquire) \
+    X(signal_group_create) \
+    X(signal_group_destroy) \
+    X(signal_group_wait_any_scacquire) \
+    X(signal_group_wait_any_relaxed) \
+    X(queue_load_read_index_scacquire) \
+    X(queue_load_write_index_scacquire) \
+    X(queue_store_write_index_screlease) \
+    X(queue_cas_write_index_scacq_screl) \
+    X(queue_cas_write_index_scacquire) \
+    X(queue_cas_write_index_screlease) \
+    X(queue_add_write_index_scacq_screl) \
+    X(queue_add_write_index_scacquire) \
+    X(queue_add_write_index_screlease) \
+    X(queue_store_read_index_screlease) \
+    X(agent_iterate_isas) \
+    X(isa_get_info_alt) \
+    X(isa_get_exception_policies) \
+    X(isa_get_round_method) \
+    X(wavefront_get_info) \
+    X(isa_iterate_wavefronts) \
+    X(code_object_reader_create_from_file) \
+    X(code_object_reader_create_from_memory) \
+    X(code_object_reader_destroy) \
+    X(executable_create_alt) \
+    X(executable_load_program_code_object) \
+    X(executable_load_agent_code_object) \
+    X(executable_validate_alt) \
+    X(executable_get_symbol_by_name) \
     X(executable_iterate_agent_symbols) \
     X(executable_iterate_program_symbols) \
     X(code_object_serialize) \
@@ -174,6 +176,8 @@
     X(queue_store_read_index_release) \
 
 #else
+
+#define COMMON_1_2_AND_1_3
 
 #define HSA_RUNTIME_API_TABLE \
     X(status_string) \

@@ -8,8 +8,6 @@
 #ifndef _HSARTMODULEFUNCTABLES_H_
 #define _HSARTMODULEFUNCTABLES_H_
 
-#ifdef FUTURE_ROCR_VERSION
-
 #define COMMON_1_2_AND_1_3 \
     X(status_string) \
     X(init) \
@@ -174,112 +172,6 @@
     X(queue_add_write_index_acquire) \
     X(queue_add_write_index_release) \
     X(queue_store_read_index_release) \
-
-#else
-
-#define COMMON_1_2_AND_1_3
-
-#define HSA_RUNTIME_API_TABLE \
-    X(status_string) \
-    X(init) \
-    X(shut_down) \
-    X(system_get_info) \
-    X(system_extension_supported) \
-    X(system_get_extension_table) \
-    X(agent_get_info) \
-    X(iterate_agents) \
-    X(agent_get_exception_policies) \
-    X(agent_extension_supported) \
-    X(signal_create) \
-    X(signal_destroy) \
-    X(signal_load_acquire) \
-    X(signal_load_relaxed) \
-    X(signal_store_relaxed) \
-    X(signal_store_release) \
-    X(signal_exchange_acq_rel) \
-    X(signal_exchange_acquire) \
-    X(signal_exchange_relaxed) \
-    X(signal_exchange_release) \
-    X(signal_cas_acq_rel) \
-    X(signal_cas_acquire) \
-    X(signal_cas_relaxed) \
-    X(signal_cas_release) \
-    X(signal_add_acq_rel) \
-    X(signal_add_acquire) \
-    X(signal_add_relaxed) \
-    X(signal_add_release) \
-    X(signal_subtract_acq_rel) \
-    X(signal_subtract_acquire) \
-    X(signal_subtract_relaxed) \
-    X(signal_subtract_release) \
-    X(signal_and_acq_rel) \
-    X(signal_and_acquire) \
-    X(signal_and_relaxed) \
-    X(signal_and_release) \
-    X(signal_or_acq_rel) \
-    X(signal_or_acquire) \
-    X(signal_or_relaxed) \
-    X(signal_or_release) \
-    X(signal_xor_acq_rel) \
-    X(signal_xor_acquire) \
-    X(signal_xor_relaxed) \
-    X(signal_xor_release) \
-    X(signal_wait_acquire) \
-    X(signal_wait_relaxed) \
-    X(queue_create) \
-    X(soft_queue_create) \
-    X(queue_destroy) \
-    X(queue_inactivate) \
-    X(queue_load_read_index_acquire) \
-    X(queue_load_read_index_relaxed) \
-    X(queue_load_write_index_acquire) \
-    X(queue_load_write_index_relaxed) \
-    X(queue_store_write_index_relaxed) \
-    X(queue_store_write_index_release) \
-    X(queue_cas_write_index_acq_rel) \
-    X(queue_cas_write_index_acquire) \
-    X(queue_cas_write_index_relaxed) \
-    X(queue_cas_write_index_release) \
-    X(queue_add_write_index_acq_rel) \
-    X(queue_add_write_index_acquire) \
-    X(queue_add_write_index_relaxed) \
-    X(queue_add_write_index_release) \
-    X(queue_store_read_index_relaxed) \
-    X(queue_store_read_index_release) \
-    X(region_get_info) \
-    X(agent_iterate_regions) \
-    X(memory_allocate) \
-    X(memory_free) \
-    X(memory_copy) \
-    X(memory_assign_agent) \
-    X(memory_register) \
-    X(memory_deregister) \
-    X(isa_from_name) \
-    X(isa_get_info) \
-    X(isa_compatible) \
-    X(code_object_serialize) \
-    X(code_object_deserialize) \
-    X(code_object_destroy) \
-    X(code_object_get_info) \
-    X(code_object_get_symbol) \
-    X(code_symbol_get_info) \
-    X(code_object_iterate_symbols) \
-    X(executable_create) \
-    X(executable_destroy) \
-    X(executable_load_code_object) \
-    X(executable_freeze) \
-    X(executable_get_info) \
-    X(executable_global_variable_define) \
-    X(executable_agent_global_variable_define) \
-    X(executable_readonly_variable_define) \
-    X(executable_validate) \
-    X(executable_get_symbol) \
-    X(executable_symbol_get_info) \
-    X(executable_iterate_symbols) \
-
-#define HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE
-
-#endif
 
 #define HSA_EXT_FINALIZE_API_TABLE \
     X(ext_program_create) \

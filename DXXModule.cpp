@@ -80,9 +80,9 @@ AMDDXXModule::LoadModule(
 
 // This will be something like: "d3dcompiler_43.dll".
 #if _WIN64
-    const char* D3DCompileModule::s_DefaultModuleName = "x64\\d3dcompiler_47.dll";
+    const char* D3DCompileModule::s_DefaultModuleName = "d3dcompiler_47.dll";
 #else
-    const char* D3DCompileModule::s_DefaultModuleName = "x86\\d3dcompiler_47.dll";
+    const char* D3DCompileModule::s_DefaultModuleName = "d3dcompiler_47.dll";
 #endif
 
 

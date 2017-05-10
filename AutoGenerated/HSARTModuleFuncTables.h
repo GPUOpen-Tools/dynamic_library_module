@@ -192,6 +192,9 @@
     X(ext_image_clear) \
     X(ext_sampler_create) \
     X(ext_sampler_destroy) \
+    X(ext_image_get_capability_with_layout) \
+    X(ext_image_data_get_info_with_layout) \
+    X(ext_image_create_with_layout) \
 
 #define HSA_EXT_AMD_API_TABLE \
     X(amd_coherency_get_type) \
@@ -221,11 +224,15 @@
     X(amd_interop_map_buffer) \
     X(amd_interop_unmap_buffer) \
     X(amd_image_create) \
+    X(amd_pointer_info) \
+    X(amd_pointer_info_set_userdata) \
+    X(amd_ipc_memory_create) \
+    X(amd_ipc_memory_attach) \
+    X(amd_ipc_memory_detach) \
 
 #define HSA_VEN_AMD_LOADER_API_TABLE \
     X(ven_amd_loader_query_host_address) \
     X(ven_amd_loader_query_segment_descriptors) \
-
 
 
 #endif // _HSARTMODULEFUNCTABLES_H_

@@ -75,7 +75,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
     {
         std::string strRelease(unameBuf.release);
 
-        if (std::string::npos == strRelease.find("kfd-compute-rocm"))
+        if (std::string::npos == strRelease.find("kfd-compute"))
         {
             return false;
         }
@@ -141,7 +141,8 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                 if (HSA_STATUS_SUCCESS == status)
                 {
                     mustCallShutdown = true;
-                    status = system_extension_supported(HSA_EXTENSION_FINALIZER, 1, 0, &extensionSupported);
+                    uint16_t finalizerMinorVersion = 0;
+                    status = system_major_extension_supported(HSA_EXTENSION_FINALIZER, 1, &finalizerMinorVersion, &extensionSupported);
                 }
                 else
                 {
@@ -155,7 +156,7 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                 {
                     hsa_ext_finalizer_1_00_pfn_t finalizerTable;
                     memset(&finalizerTable, 0, sizeof(hsa_ext_finalizer_1_00_pfn_t));
-                    status = system_get_extension_table(HSA_EXTENSION_FINALIZER, 1, 0, &finalizerTable);
+                    status = system_get_major_extension_table(HSA_EXTENSION_FINALIZER, 1, sizeof(hsa_ext_finalizer_1_00_pfn_t), &finalizerTable);
 
                     if (HSA_STATUS_SUCCESS == status)
                     {
@@ -167,13 +168,14 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                     }
                 }
 
-                status = system_extension_supported(HSA_EXTENSION_IMAGES, 1, 0, &extensionSupported);
+                uint16_t minorVer = 0;
+                status = system_major_extension_supported(HSA_EXTENSION_IMAGES, 1, &minorVer, &extensionSupported);
 
                 if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
-                    hsa_ext_images_1_00_pfn_t imagesTable;
-                    memset(&imagesTable, 0, sizeof(hsa_ext_images_1_00_pfn_t));
-                    status = system_get_extension_table(HSA_EXTENSION_IMAGES, 1, 0, &imagesTable);
+                    hsa_ext_images_1_pfn_t imagesTable;
+                    memset(&imagesTable, 0, sizeof(hsa_ext_images_1_pfn_t));
+                    status = system_get_major_extension_table(HSA_EXTENSION_IMAGES, 1, sizeof(hsa_ext_images_1_pfn_t), &imagesTable);
 
                     if (HSA_STATUS_SUCCESS == status)
                     {
@@ -186,19 +188,20 @@ bool HSAModule::LoadModule(const std::string& moduleName)
                 }
 
                 uint16_t amdLoaderExtension = HSA_EXTENSION_AMD_LOADER;
-                status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
+                uint16_t amdLoaderMinorVersion;
+                status = system_major_extension_supported(amdLoaderExtension, 1, &amdLoaderMinorVersion, &extensionSupported);
 
                 if ((HSA_STATUS_SUCCESS != status) || !extensionSupported)
                 {
                     amdLoaderExtension = ROCM_1_2_AMD_VEN_LOADER_EXTENSION;
-                    status = system_extension_supported(amdLoaderExtension, 1, 0, &extensionSupported);
+                    status = system_major_extension_supported(amdLoaderExtension, 1, &amdLoaderMinorVersion, &extensionSupported);
                 }
 
                 if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
                     hsa_ven_amd_loader_1_00_pfn_t loaderTable;
                     memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_00_pfn_t));
-                    status = system_get_extension_table(amdLoaderExtension, 1, 0, &loaderTable);
+                    status = system_get_major_extension_table(amdLoaderExtension, 1, sizeof(hsa_ven_amd_loader_1_00_pfn_t), &loaderTable);
 
                     if (HSA_STATUS_SUCCESS == status)
                     {

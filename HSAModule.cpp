@@ -45,6 +45,7 @@ void HSAModule::Initialize()
     HSA_EXT_IMAGE_API_TABLE;
     HSA_EXT_AMD_API_TABLE;
     HSA_VEN_AMD_LOADER_API_TABLE;
+    HSA_VEN_AMD_AQL_PROFILE_API_TABLE;
     HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE;
 #undef X
 
@@ -180,15 +181,34 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 
                 if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
-                    hsa_ven_amd_loader_1_00_pfn_t loaderTable;
-                    memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_00_pfn_t));
-                    status = system_get_major_extension_table(amdLoaderExtension, 1, sizeof(hsa_ven_amd_loader_1_00_pfn_t), &loaderTable);
+                    hsa_ven_amd_loader_1_01_pfn_t loaderTable;
+                    memset(&loaderTable, 0, sizeof(hsa_ven_amd_loader_1_01_pfn_t));
+                    status = system_get_major_extension_table(amdLoaderExtension, 1, sizeof(hsa_ven_amd_loader_1_01_pfn_t), &loaderTable);
 
                     if (HSA_STATUS_SUCCESS == status)
                     {
 #define X(SYM) SYM = loaderTable.hsa_##SYM;
                         HSA_VEN_AMD_LOADER_API_TABLE;
                         m_amdVenLoaderTableLoaded = true;
+#undef X
+                    }
+                }
+
+                uint16_t amdAqlProfileExtension = HSA_EXTENSION_AMD_AQLPROFILE;
+                uint16_t amdAqlProfileMinorVersion;
+                status = system_major_extension_supported(amdAqlProfileExtension, 1, &amdAqlProfileMinorVersion, &extensionSupported);
+
+                if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
+                {
+                    hsa_ven_amd_aqlprofile_1_00_pfn_t aqlprofileTable;
+                    memset(&aqlprofileTable, 0, sizeof(hsa_ven_amd_aqlprofile_1_00_pfn_t));
+                    status = system_get_major_extension_table(amdAqlProfileExtension, 1, sizeof(hsa_ven_amd_aqlprofile_1_00_pfn_t), &aqlprofileTable);
+
+                    if (HSA_STATUS_SUCCESS == status)
+                    {
+#define X(SYM) SYM = aqlprofileTable.hsa_##SYM;
+                        HSA_VEN_AMD_AQL_PROFILE_API_TABLE;
+                        m_amdVenAqlprofileTableLoaded = true;
 #undef X
                     }
                 }

@@ -368,7 +368,13 @@ typedef CL_API_ENTRY cl_int
     X(SetThreadTraceParamAMD) \
     X(UnloadPlatformAMD) \
     X(GetKernelSubGroupInfoKHR) \
-    X(TerminateContextKHR)
+    X(TerminateContextKHR) \
+    X(CreateSsgFileObjectAMD) \
+    X(GetSsgFileObjectInfoAMD) \
+    X(RetainSsgFileObjectAMD) \
+    X(ReleaseSsgFileObjectAMD) \
+    X(EnqueueReadSsgFileAMD) \
+    X(EnqueueWriteSsgFileAMD) \
 
 // Windows only extensions.
 #define WINDOWS_ONLY_EXTENSIONS_TABLE \

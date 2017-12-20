@@ -57,9 +57,13 @@ public:
     /// \return true if AMD extension api table entry point are valid otherwise false
     bool IsExtAMDAPITableLoaded() { return m_amdExtTableLoaded; }
 
-    /// Indicates whether the AMD vendor api table functions entry point are loaded or not
+    /// Indicates whether the AMD vendor loader api table functions entry point are loaded or not
     /// \return true if api table entry point are valid otherwise false
     bool IsVenAMDLoaderAPITableLoaded() { return m_amdVenLoaderTableLoaded; }
+
+    /// Indicates whether the AMD vendor aqlprofile api table functions entry point are loaded or not
+    /// \return true if api table entry point are valid otherwise false
+    bool IsVenAMDAqlprofileAPITableLoaded() { return m_amdVenAqlprofileTableLoaded; }
 
     /// Indicates whether the noninterceptable API table entry point are loaded or not
     /// return true if api table entry point are valid otherwise false
@@ -72,6 +76,7 @@ public:
     HSA_EXT_IMAGE_API_TABLE;
     HSA_EXT_AMD_API_TABLE;
     HSA_VEN_AMD_LOADER_API_TABLE;
+    HSA_VEN_AMD_AQL_PROFILE_API_TABLE;
     HSA_NON_INTERCEPTABLE_RUNTIME_API_TABLE;
 #undef X
 
@@ -83,7 +88,8 @@ private:
     bool                 m_finalizeExtTableLoaded;          ///< Flag indicating whether the HSA finalizer extension API table entry points are valid or not
     bool                 m_imageExtTableLoaded;             ///< Flag indicating whether the HSA image extension API table entry points are loaded or not
     bool                 m_amdExtTableLoaded;               ///< Flag indicating whether the HSA AMD extension table entry points are loaded or not
-    bool                 m_amdVenLoaderTableLoaded;         ///< Flag indicating whether the AMD vendor extension table entry points are loaded or not
+    bool                 m_amdVenLoaderTableLoaded;         ///< Flag indicating whether the AMD vendor loader extension table entry points are loaded or not
+    bool                 m_amdVenAqlprofileTableLoaded;     ///< Flag indicating whether the AMD vendor aqlprofile extension table entry points are loaded or not
     bool                 m_nonInterceptableTableLoaded;     ///< Flag indicating whether the non-interceptable table API entry points are loaded or not
     DynamicLibraryModule m_dynamicLibraryHelper;            ///< Helper to load/initialize the runtime entry points
 };

@@ -147,8 +147,8 @@ typedef CL_API_ENTRY cl_int
 (CL_API_CALL* clUnloadPlatformAMD_fn)(
     cl_platform_id platform) CL_API_SUFFIX__VERSION_1_0;
 
-
-
+typedef clGetKernelSubGroupInfoKHR_fn clGetKernelSubGroupInfo_fn;
+typedef clCreateProgramWithILKHR_fn clCreateProgramWithIL_fn;
 
 // These match those in cl_icd_amd.h struct _cl_icd_dispatch_table.
 // I've kept them in order.
@@ -282,6 +282,19 @@ typedef CL_API_ENTRY cl_int
     X(SetKernelArgSVMPointer) \
     X(SetKernelExecInfo)
 
+#define OPENCL21_API_TABLE \
+    X(CloneKernel) \
+    X(EnqueueSVMMigrateMem) \
+    X(GetDeviceAndHostTimer) \
+    X(GetHostTimer) \
+    X(SetDefaultDeviceCommandQueue) \
+    X(GetKernelSubGroupInfo) \
+    X(CreateProgramWithIL)
+
+#define OPENCL22_API_TABLE \
+    X(SetProgramReleaseCallback) \
+    X(SetProgramSpecializationConstant)
+
 #ifdef _WIN32
 #define D3D10_KHR_RESERVED_TABLE_AVAILABLE 1
 #define D3D10_KHR_RESERVED_TABLE \
@@ -402,6 +415,8 @@ public:
         OpenCL_1_1,               ///< OpenCL V1.1 is loaded
         OpenCL_1_2,               ///< OpenCL V1.2 is loaded
         OpenCL_2_0,               ///< OpenCL V2.0 is loaded
+        OpenCL_2_1,               ///< OpenCL V2.1 is loaded
+        OpenCL_2_2,               ///< OpenCL V2.2 is loaded
     };
 
     enum OpenCLExt
@@ -493,6 +508,8 @@ public:
     void*                         _reservedD3DExtensions[10];
     void*                         _reservedEGLExtensions[4];
     OPENCL20_API_TABLE;
+    OPENCL21_API_TABLE;
+    OPENCL22_API_TABLE;
     EXTENSIONS_TABLE;
 #ifdef _WIN32
     WINDOWS_ONLY_EXTENSIONS_TABLE;

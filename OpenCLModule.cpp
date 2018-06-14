@@ -78,6 +78,8 @@ OpenCLModule::LoadModule(const std::string& moduleName)
         // Skip _reservedD3DExtensions
         // Skip _reservedEGLExtensions
         OPENCL20_API_TABLE;
+        OPENCL21_API_TABLE;
+        OPENCL22_API_TABLE;
 #undef X
 #undef MAKE_STRING
 
@@ -138,6 +140,16 @@ OpenCLModule::OpenCLLoaded()
     if (moduleLoaded == OpenCL_1_2 OPENCL20_API_TABLE)
     {
         moduleLoaded = OpenCL_2_0;
+    }
+
+    if (moduleLoaded == OpenCL_2_0 OPENCL21_API_TABLE)
+    {
+        moduleLoaded = OpenCL_2_1;
+    }
+
+    if (moduleLoaded == OpenCL_2_1 OPENCL22_API_TABLE)
+    {
+        moduleLoaded = OpenCL_2_2;
     }
 
 #undef X
@@ -218,6 +230,11 @@ OpenCLModule::GetAsCLDispatchTable(cl_icd_dispatch_table& dispatchTable)
     OPENCL20_API_TABLE;
 #undef X2
 #undef X
+
+#define X(SYM) dispatchTable.cl##SYM = SYM;
+    OPENCL21_API_TABLE;
+    OPENCL22_API_TABLE;
+#undef X
 }
 
 
@@ -238,6 +255,11 @@ OpenCLModule::SetFromCLDispatchTable(const cl_icd_dispatch_table& dispatchTable)
     OPENCL20_API_TABLE;
 #undef X
 #undef X2
+
+#define X(SYM) SYM = dispatchTable.cl##SYM;
+    OPENCL21_API_TABLE;
+    OPENCL22_API_TABLE;
+#undef X
 }
 
 void OpenCLModule::Initialize()
@@ -265,6 +287,8 @@ void OpenCLModule::Initialize()
     _reservedEGLExtensions[2] = NULL;
     _reservedEGLExtensions[3] = NULL;
     OPENCL20_API_TABLE;
+    OPENCL21_API_TABLE;
+    OPENCL22_API_TABLE;
     EXTENSIONS_TABLE;
 #ifdef _WIN32
     WINDOWS_ONLY_EXTENSIONS_TABLE;
@@ -286,6 +310,8 @@ std::ostream& operator<<(std::ostream& output, const OpenCLModule& module)
     // Skip _reservedD3DExtensions
     // Skip _reservedEGLExtensions
     OPENCL20_API_TABLE;
+    OPENCL21_API_TABLE;
+    OPENCL22_API_TABLE;
     EXTENSIONS_TABLE;
 #ifdef _WIN32
     WINDOWS_ONLY_EXTENSIONS_TABLE;

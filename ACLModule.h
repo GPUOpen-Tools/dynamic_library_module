@@ -201,6 +201,9 @@ public:
     /// fallback compiler library name (amdocl.dll)
     static const char* s_TMP_MODULE_NAME;
 
+    /// fallback compiler library for ORCA path on Linux amdgpu (libamdocl-orca64.so)
+    static const char* s_TMP_ORCA_MODULE_NAME;
+
     /// Load module.
     /// \param[in] name The module name.
     /// \return         true if successful, false otherwise

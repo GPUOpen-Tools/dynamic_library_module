@@ -12,11 +12,13 @@
         const char* ACLModule::s_DefaultModuleName = "amdocl12cl64.dll";
         const char* ACLModule::s_OldDefaultModuleName = "amdoclcl64.dll";
         const char* ACLModule::s_TMP_MODULE_NAME = "amdocl64.dll";
+        const char* ACLModule::s_TMP_ORCA_MODULE_NAME = nullptr;
         const char* ACLModule::s_HSA_COMPILER_LIB_NAME = "amdhsacl64.dll";
     #else // LINUX
-        const char* ACLModule::s_DefaultModuleName = "libamdocl12cl64.so"; // NOT SURE ABOUT IT
+        const char* ACLModule::s_DefaultModuleName = "libamdocl12cl64.so";
         const char* ACLModule::s_OldDefaultModuleName = "libamdoclcl64.so"; // NOT SURE ABOUT IT
         const char* ACLModule::s_TMP_MODULE_NAME = "libamdocl64.so";
+        const char* ACLModule::s_TMP_ORCA_MODULE_NAME = "libamdocl-orca64.so";
         const char* ACLModule::s_HSA_COMPILER_LIB_NAME = "libamdhsacl64.so";
     #endif
 #else
@@ -24,11 +26,13 @@
         const char* ACLModule::s_DefaultModuleName = "amdocl12cl.dll";
         const char* ACLModule::s_OldDefaultModuleName = "amdoclcl.dll";
         const char* ACLModule::s_TMP_MODULE_NAME = "amdocl.dll";
+        const char* ACLModule::s_TMP_ORCA_MODULE_NAME = nullptr;
         const char* ACLModule::s_HSA_COMPILER_LIB_NAME = "amdhsacl.dll";
     #else // LINUX
         const char* ACLModule::s_DefaultModuleName = "libamdocl12cl.so"; // NOT SURE ABOUT IT
         const char* ACLModule::s_OldDefaultModuleName = "libamdoclcl.so"; // NOT SURE ABOUT IT
         const char* ACLModule::s_TMP_MODULE_NAME = "libamdocl.so";
+        const char* ACLModule::s_TMP_ORCA_MODULE_NAME = nullptr;
         const char* ACLModule::s_HSA_COMPILER_LIB_NAME = "libamdhsacl.so";
     #endif
 #endif

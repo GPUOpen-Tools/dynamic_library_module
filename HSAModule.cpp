@@ -200,9 +200,9 @@ bool HSAModule::LoadModule(const std::string& moduleName)
 
                 if ((HSA_STATUS_SUCCESS == status) && extensionSupported)
                 {
-                    hsa_ven_amd_aqlprofile_1_00_pfn_t aqlprofileTable;
-                    memset(&aqlprofileTable, 0, sizeof(hsa_ven_amd_aqlprofile_1_00_pfn_t));
-                    status = system_get_major_extension_table(amdAqlProfileExtension, 1, sizeof(hsa_ven_amd_aqlprofile_1_00_pfn_t), &aqlprofileTable);
+                    hsa_ven_amd_aqlprofile_pfn_t aqlprofileTable;
+                    memset(&aqlprofileTable, 0, sizeof(hsa_ven_amd_aqlprofile_pfn_t));
+                    status = system_get_major_extension_table(amdAqlProfileExtension, 1, sizeof(hsa_ven_amd_aqlprofile_pfn_t), &aqlprofileTable);
 
                     if (HSA_STATUS_SUCCESS == status)
                     {

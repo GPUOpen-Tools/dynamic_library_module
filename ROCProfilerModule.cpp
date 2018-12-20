@@ -10,6 +10,7 @@
 
 #if defined(_WIN64) || defined(_WIN32)
     #pragma message("ROCProfiler does not support Windows")
+    const char* ROCProfilerModule::s_defaultModuleName = "";
 #else
     const char* ROCProfilerModule::s_defaultModuleName = "librocprofiler64.so";
 #endif

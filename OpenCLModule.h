@@ -63,7 +63,6 @@ typedef CL_API_ENTRY cl_int
     size_t*             /* param_value_size_ret */) CL_API_SUFFIX__VERSION_1_0;
 
 
-// Gleaned from drivers\opencl\api\opencl\amdocl\cl_thread_trace_amd.h
 typedef struct _cl_threadtrace_amd* cl_threadtrace_amd;
 typedef CL_API_ENTRY cl_threadtrace_amd
 (CL_API_CALL* clCreateThreadTraceAMD_fn)(

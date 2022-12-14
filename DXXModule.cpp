@@ -9,9 +9,9 @@
 #include "DXXModule.h"
 
 #if _WIN64
-    const char* AMDDXXModule::s_DefaultModuleName = "atidxx64.dll";
+    const char* AMDDXXModule::s_DefaultModuleName = "utils\\dx11\\amdxx64.dll";
 #else
-    const char* AMDDXXModule::s_DefaultModuleName = "atidxx32.dll";
+    const char* AMDDXXModule::s_DefaultModuleName = "utils\\dx11\\amdxx32.dll";
 #endif
 
 AMDDXXModule::AMDDXXModule(const std::string& moduleName)

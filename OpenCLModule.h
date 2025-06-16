@@ -343,15 +343,15 @@ typedef clCreateProgramWithILKHR_fn clCreateProgramWithIL_fn;
 //
 //  Returns the address of the extension function named by
 //  funcname for a given platform. The pointer returned should be cast
-//  to a function pointer type matching the extension function’s definition
+//  to a function pointer type matching the extension function's definition
 //  defined in the appropriate extension specification and header file.
 //  A return value of NULL indicates that the specified function does not
 //  exist for the implementation or platform is not a valid platform.
 //  A non-NULL return value for \a clGetExtensionFunctionAddressForPlatform
 //  does not guarantee that an extension function is actually supported by
 //  the platform. The application must also make a corresponding query using
-//  \a clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, … ) or
-//  \a clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, … ) to determine if
+//  \a clGetPlatformInfo(platform, CL_PLATFORM_EXTENSIONS, ? ) or
+//  \a clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, ? ) to determine if
 //  an extension is supported by the OpenCL implementation.
 //
 //  \version 1.2r07

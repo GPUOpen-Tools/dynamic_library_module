@@ -26,7 +26,30 @@ DynamicLibraryModule::~DynamicLibraryModule(void)
 bool DynamicLibraryModule::LoadModule(const std::string& name)
 {
 #ifdef _WIN32
-    m_Module = LoadLibraryA(name.c_str());
+    char exe_path[MAX_PATH] = {0};
+    DWORD len                = GetModuleFileNameA(nullptr, exe_path, MAX_PATH);
+    if (len == 0 || len == MAX_PATH)
+    {
+        return false;
+    }
+
+    std::string full_path(exe_path);
+    size_t      last_backslash = full_path.rfind('\\');
+    if (last_backslash != std::string::npos)
+    {
+        full_path.resize(last_backslash + 1);
+    }
+
+    // Append the DLL name
+    full_path.append(name);
+
+    m_Module = LoadLibraryA(full_path.c_str());
+
+    if (m_Module == nullptr)
+    {
+        // Fall back to the name passed in, in case it is a fully-qualified name already.
+        m_Module = LoadLibraryA(name.c_str());
+    }
 #else
     m_Module = dlopen(name.c_str(), RTLD_LAZY);
 #endif
